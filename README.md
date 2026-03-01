@@ -32,10 +32,12 @@
 
 Для виконання завдання було вирішено обрати мову програмування: C#.
 У ролі лінтера виступатиме StyleCop.Analyzers. Додамо його до нашого проекту:
-<img width="858" height="681" alt="зображення" src="https://github.com/user-attachments/assets/19f18f1a-06ed-45a8-ad52-842776d0ef8f" />
+
+<img width="632" height="502" alt="зображення" src="https://github.com/user-attachments/assets/bb1a6301-abb3-49b7-88ac-5185bebdb781" />
 
 Цей лінтер передбачає власний набір правил написання коду.
 Тепер, наприклад при відсутності документаційних коментарів до методів, буде з’являтись попередження:
+
 <img width="630" height="208" alt="зображення" src="https://github.com/user-attachments/assets/154c00cd-6090-4a68-a86a-aa34a0256b72" />
 
 ## Встановлення залежностей
@@ -56,7 +58,9 @@
 `dotnet build`
 
 ## Діаграма компонентів
+
 <img width="479" height="635" alt="зображення" src="https://github.com/user-attachments/assets/c7cded34-2523-4b6e-851a-981414efcd4b" />
 
 ## Діаграма класів
+
 <img width="918" height="535" alt="зображення" src="https://github.com/user-attachments/assets/9375301c-036c-4684-9067-6fdef305a69b" />
