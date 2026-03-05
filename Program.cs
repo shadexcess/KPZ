@@ -1,8 +1,8 @@
 ﻿public class Program
 {
-    private static void Main()
+    private static void Main(string[] args)
     {
-        string filePath = "..\\file.txt";
+        string filePath = args[0];
 
         FileReader reader = new FileReader();
         DependencyGraph graph = reader.ReadFile(filePath);
