@@ -7,12 +7,21 @@
         FileReader reader = new FileReader();
         DependencyGraph graph = reader.ReadFile(filePath);
 
-        DependencyResolver resolver = new DependencyResolver(graph);
-        List<Package> order = resolver.Resolve();
+        //DependencyResolver resolver = new DependencyResolver(graph);
+        //List<Package> order = resolver.Resolve();
 
-        foreach (Package package in order)
+        //foreach (Package package in order)
+        //{
+        //    Console.WriteLine(package.Name + "-" + package.Version);
+        //}
+
+
+
+        // to test if it works
+        IEnumerable<Package> list = graph.GetAllPackages();
+        foreach (var element in list)
         {
-            Console.WriteLine(package.Name + "-" + package.Version);
+            Console.WriteLine(element);
         }
     }
 }

@@ -11,21 +11,32 @@ public class DependencyGraph
 
 	public void AddPackage(Package package)
 	{
-		throw new NotImplementedException();
-	}
+		if (!dependencies.ContainsKey(package))
+		{
+            dependencies.Add(package, new List<Package>());
+        }
+    }
 
 	public void AddDependency(Package from, Package to)
 	{
-        throw new NotImplementedException();
+		dependencies[from].Add(to);
     }
 
     public List<Package> GetDependencies(Package package)
 	{
-        throw new NotImplementedException();
+		if (dependencies.ContainsKey(package))
+		{
+			return dependencies[package];
+		}
+
+		else
+		{
+			return new List<Package>();
+		}
     }
 
     public IEnumerable<Package> GetAllPackages()
 	{
-        throw new NotImplementedException();
+		return dependencies.Keys;
     }
 }
