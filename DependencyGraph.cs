@@ -2,6 +2,8 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+namespace lab1;
+
 /// <summary>
 /// Represents a dependency graph of packages and stores them and their dependency relationships.
 /// </summary>

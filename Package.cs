@@ -2,6 +2,8 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+namespace lab1;
+
 /// <summary>
 /// Represents a package with a name and version.
 /// </summary>

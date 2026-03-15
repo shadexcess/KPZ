@@ -2,6 +2,8 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+namespace lab1;
+
 /// <summary>
 /// Main program class responsible for reading the dependency file and resolving package installation order.
 /// </summary>
@@ -18,17 +20,16 @@ public class Program
         {
             string filePath = args[0];
 
-            FileReader reader = new FileReader();
-            DependencyGraph graph = reader.ReadFile(filePath);
-
+            var lines = new FileReader().ReadLines(filePath);
+            DependencyGraph graph = new GraphBuilder().BuildGraph(lines);
             DependencyResolver resolver = new DependencyResolver(graph);
             List<Package> order = resolver.Resolve();
 
             Console.WriteLine("Package installation order:\n");
 
-            foreach (Package package in order)
+            for (int i = 1; i < order.Count; i++)
             {
-                Console.WriteLine(package.name + "-" + package.version);
+                Console.WriteLine(i + ". " + order[i].name + "-" + order[i].version);
             }
         }
         catch (Exception ex)
