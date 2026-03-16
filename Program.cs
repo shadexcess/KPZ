@@ -27,9 +27,9 @@ public class Program
 
             Console.WriteLine("Package installation order:\n");
 
-            for (int i = 1; i < order.Count; i++)
+            for (int i = 0; i < order.Count; i++)
             {
-                Console.WriteLine(i + ". " + order[i].name + "-" + order[i].version);
+                Console.WriteLine(i + 1 + ". " + order[i].name + "-" + order[i].version);
             }
         }
         catch (Exception ex)
