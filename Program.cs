@@ -32,7 +32,7 @@ public class Program
                 Console.WriteLine(i + 1 + ". " + order[i].name + "-" + order[i].version);
             }
         }
-        catch (Exception ex)
+        catch (CyclicDependencyException ex)
         {
             Console.WriteLine("An error occurred: " + ex.Message);
         }

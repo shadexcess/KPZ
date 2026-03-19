@@ -73,7 +73,7 @@ public class DependencyResolver
         {
             if (currentPath.Contains(dependency))
             {
-                throw new Exception("Dependency cycle detected");
+                throw new CyclicDependencyException("Dependency cycle detected");
             }
 
             if (!visited.Contains(dependency))
