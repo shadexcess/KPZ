@@ -16,6 +16,7 @@ public class GraphBuilder
     /// </summary>
     /// <param name="lines">An <see cref="IEnumerable{String}"/> containing the lines of the dependency file.</param>
     /// <returns>A <see cref="DependencyGraph"/> representing all packages and their dependency relationships.</returns>
+    /// <exception cref="MissingDependencyException">Thrown if a package declares a dependency that does not exist in the input lines.</exception>
     public DependencyGraph BuildGraph(IEnumerable<string> lines)
     {
         DependencyGraph graph = new DependencyGraph();
@@ -23,7 +24,9 @@ public class GraphBuilder
         string packagePattern = @"package:";
         string requiresPattern = @"requires:";
 
-        var lineList = lines.ToList();
+        List<string> lineList = lines.ToList();
+
+        FindAllPackages(lineList, packagePattern, out HashSet<Package> allPackages);
 
         int i = 0;
 
@@ -31,7 +34,7 @@ public class GraphBuilder
         {
             string line = lineList[i];
 
-            if (!line.Contains(packagePattern))
+            if (!line.StartsWith(packagePattern))
             {
                 continue;
             }
@@ -41,13 +44,18 @@ public class GraphBuilder
 
             int j = i + 1;
 
-            while (j < lineList.Count && lineList[j].Contains(requiresPattern))
+            while (j < lineList.Count && lineList[j].StartsWith(requiresPattern))
             {
                 this.FindPackage(lineList[j], requiresPattern, out Package dependencyPackage);
-                if (dependencyPackage != null)
+                if (dependencyPackage != null && allPackages.Contains(dependencyPackage))
                 {
                     graph.AddPackage(dependencyPackage);
                     graph.AddDependency(package, dependencyPackage);
+                }
+                else
+                {
+                    throw new MissingDependencyException("Error in line: " + i + ": Package " +
+                        package.name + "-" + package.version + " requires missing package.");
                 }
 
                 j++;
@@ -60,11 +68,34 @@ public class GraphBuilder
     }
 
     /// <summary>
+    /// Scans the provided lines and collects all package definitions into a <see cref="HashSet{Package}"/>.
+    /// </summary>
+    /// <param name="lineList">A list of strings representing lines from the dependency file.</param>
+    /// <param name="packagePattern">The keyword pattern used to identify package lines (e.g., "package:").</param>
+    /// <param name="allPackages"> The resulting <see cref="HashSet{Package}"/> containing all packages found in the file.</param>
+    private void FindAllPackages(List<string> lineList, string packagePattern, out HashSet<Package> allPackages)
+    {
+        allPackages = new HashSet<Package>();
+
+        foreach (string line in lineList)
+        {
+            if (line.StartsWith(packagePattern))
+            {
+                this.FindPackage(line, packagePattern, out Package package);
+                allPackages.Add(package);
+            }
+        }
+    }
+
+    /// <summary>
     /// Parses a line from the dependency file and extracts a <see cref="Package"/> object if present.
     /// </summary>
     /// <param name="line">The line from the file containing package information.</param>
     /// <param name="pattern">The keyword pattern to remove from the line (e.g., "package:" or "requires:").</param>
     /// <param name="package">The resulting <see cref="Package"/> object, or null if the line is empty after removing the pattern.</param>
+    /// <exception cref="PackageFormatException">
+    /// Thrown if the package line is incorrectly formatted, the package name is missing, or the package version is invalid.
+    /// </exception>
     private void FindPackage(string line, string pattern, out Package? package)
     {
         string result = Regex.Replace(line, pattern, string.Empty, RegexOptions.IgnoreCase);
@@ -75,6 +106,38 @@ public class GraphBuilder
         }
 
         string[] parts = result.Split(',', StringSplitOptions.TrimEntries);
-        package = new Package(parts[0], parts[1]);
+
+        if (parts.Length < 2)
+        {
+            throw new PackageFormatException("Package line is invalid (expected 'name,version'): " + line);
+        }
+
+        string name = parts[0];
+        string version = parts[1];
+
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new PackageFormatException("Package name is missing in line " + line);
+        }
+
+        if (!this.IsVersionValid(version))
+        {
+            throw new PackageFormatException("Package version is invalid for package " + name + " in line " + line);
+        }
+
+        package = new Package(name, version);
+    }
+
+    /// <summary>
+    /// Determines whether a version string is valid according to the expected format.
+    /// </summary>
+    /// <param name="version">The version string to validate (e.g., "v1.0.3").</param>
+    /// <returns>
+    /// <c>true</c> if the version string starts with 'v' followed by numbers separated by dots; otherwise, <c>false</c>.
+    /// </returns>
+    private bool IsVersionValid(string version)
+    {
+        string pattern = @"^v\d+(\.\d+)*$";
+        return Regex.IsMatch(version, pattern);
     }
 }

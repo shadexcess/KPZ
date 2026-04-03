@@ -32,9 +32,13 @@ public class Program
                 Console.WriteLine(i + 1 + ". " + order[i].name + "-" + order[i].version);
             }
         }
-        catch (CyclicDependencyException ex)
+        catch (DependencyException ex)
         {
-            Console.WriteLine("An error occurred: " + ex.Message);
+            Console.WriteLine("An error occurred: " + ex.GetType().Name + " - " + ex.Message);
+        }
+        catch (FileNotFoundException ex)
+        {
+            Console.WriteLine("File not found: " + ex.FileName);
         }
     }
 }

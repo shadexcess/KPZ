@@ -27,7 +27,6 @@ public class DependencyResolver
     /// Resolves the packages in an order that satisfies all dependencies.
     /// </summary>
     /// <returns>A list of <see cref="Package"/> objects sorted in dependency order.</returns>
-    /// <exception cref="Exception">Thrown if a dependency cycle is detected in the graph.</exception>
     public List<Package> Resolve()
     {
         HashSet<Package> visited = new HashSet<Package>();

@@ -2,7 +2,7 @@
   "profiles": {
     "lab1": {
       "commandName": "Project",
-      "commandLineArgs": "D:\\course3\\SEM2\\КПЗ\\lab1\\KPZ\\data\\file.txt"
+      "commandLineArgs": "D:\\course3\\SEM2\\КПЗ\\lab1\\lab1\\data\\file.txt"
     }
   }
 }
