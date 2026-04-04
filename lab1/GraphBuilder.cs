@@ -40,22 +40,30 @@ public class GraphBuilder
             }
 
             this.FindPackage(line, packagePattern, out Package package);
+            if (package == null)
+            {
+                throw new PackageFormatException("Package line is empty or invalid: " + line);
+            }
+
             graph.AddPackage(package);
 
             int j = i + 1;
 
             while (j < lineList.Count && lineList[j].StartsWith(requiresPattern))
             {
+                string dependencyLine = lineList[j].Substring(requiresPattern.Length).Trim();
                 this.FindPackage(lineList[j], requiresPattern, out Package dependencyPackage);
-                if (dependencyPackage != null && allPackages.Contains(dependencyPackage))
+
+                if (dependencyPackage != null)
                 {
+                    if (!allPackages.Contains(dependencyPackage))
+                    {
+                        throw new MissingDependencyException("Error in line: " + i + ": Package " +
+                            package.name + "-" + package.version + " requires missing package.");
+                    }
+
                     graph.AddPackage(dependencyPackage);
                     graph.AddDependency(package, dependencyPackage);
-                }
-                else
-                {
-                    throw new MissingDependencyException("Error in line: " + i + ": Package " +
-                        package.name + "-" + package.version + " requires missing package.");
                 }
 
                 j++;
@@ -101,7 +109,8 @@ public class GraphBuilder
         string result = Regex.Replace(line, pattern, string.Empty, RegexOptions.IgnoreCase);
         if (string.IsNullOrEmpty(result.Trim()))
         {
-            throw new PackageFormatException("Package line is empty or invalid: " + line);
+            package = null;
+            return;
         }
 
         string[] parts = result.Split(',', StringSplitOptions.TrimEntries);

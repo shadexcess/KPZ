@@ -1,4 +1,5 @@
 package: core-module, v1.0
+requires:
 
 package: logger, v2.1
 requires: core-module, v1.0
