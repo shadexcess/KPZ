@@ -101,8 +101,7 @@ public class GraphBuilder
         string result = Regex.Replace(line, pattern, string.Empty, RegexOptions.IgnoreCase);
         if (string.IsNullOrEmpty(result.Trim()))
         {
-            package = null;
-            return;
+            throw new PackageFormatException("Package line is empty or invalid: " + line);
         }
 
         string[] parts = result.Split(',', StringSplitOptions.TrimEntries);
