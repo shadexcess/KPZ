@@ -24,19 +24,20 @@
 `dotnet build`
 
 ## Запуск тестів
-'dotnet test'
+`dotnet test`
 
 або для запуску з покриттям тестів:
 
-'dotnet test --collect:"XPlat Code Coverage"'
+`dotnet test --collect:"XPlat Code Coverage"`
 
 ## Генерація HTML-звіту покриття коду тестами
 Встановіть ReportGenerator:
 
-'dotnet tool install -g dotnet-reportgenerator-globaltool'
+`dotnet tool install -g dotnet-reportgenerator-globaltool`
 
 генерація звіту:
-'reportgenerator -reports:"<шлях до папки з тестами>/TestResults/{guid}/coverage.cobertura.xml" -targetdir:"<шлях до місця збереження html звіту>" -reporttypes:Html'
+
+`reportgenerator -reports:"<шлях до папки з тестами>/TestResults/{guid}/coverage.cobertura.xml" -targetdir:"<шлях до місця збереження html звіту>" -reporttypes:Html`
 
 наприклад:
 
