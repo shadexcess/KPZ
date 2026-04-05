@@ -5,7 +5,7 @@
 1. Клонуйте репозиторій:
    `git clone <LINK>`
 2. Перейдіть в директорію із проектом.
-3. У папці з проектом (де файл з розширенням .csproj) відкрийте консоль та введіть команду:
+3. У папці з проектом (де файл з розширенням .csproj) відкрийте консоль та встановіть всі залежності проекту:
    `dotnet restore`
 
 ## Запуск проекту
@@ -41,4 +41,4 @@
 
 наприклад:
 
-'reportgenerator -reports:"lab1.Tests/TestResults/*/coverage.cobertura.xml" -targetdir:"lab1.Tests/CoverageReport" -reporttypes:Html'
+`reportgenerator -reports:"lab1.Tests/TestResults/*/coverage.cobertura.xml" -targetdir:"lab1.Tests/CoverageReport" -reporttypes:Html`
