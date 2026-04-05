@@ -38,6 +38,11 @@ public class DependencyGraph
     /// <param name="to">The package being depended upon.</param>
     public void AddDependency(Package from, Package to)
     {
+        if (from.Equals(to))
+        {
+            return;
+        }
+
         if (!this.dependencies[from].Contains(to))
         {
             this.dependencies[from].Add(to);

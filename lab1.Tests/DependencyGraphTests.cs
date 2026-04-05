@@ -58,6 +58,18 @@ public class DependencyGraphTests
     }
 
     [Fact]
+    public void AddDependency_DoesNotAllowSelfDependency()
+    {
+        DependencyGraph graph = new DependencyGraph();
+        Package packageA = new Package("A", "v1.0");
+
+        graph.AddPackage(packageA);
+        graph.AddDependency(packageA, packageA);
+
+        Assert.Empty(graph.GetDependencies(packageA));
+    }
+
+    [Fact]
     public void GetDependencies_ReturnsDependenciesForPackage()
     {
         DependencyGraph graph = new DependencyGraph();
