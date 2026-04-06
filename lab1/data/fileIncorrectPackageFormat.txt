@@ -1,5 +1,5 @@
 package: core-module, v1.0
-requires: auth-module, v2.0
+requires: auth-module
 
 package: logger, v2.1
 requires: core-module, v1.0
