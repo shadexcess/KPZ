@@ -22,6 +22,9 @@ public class Program
 
             var lines = new FileReader().ReadLines(filePath);
             DependencyGraph graph = new GraphBuilder().BuildGraph(lines);
+
+            string? resolutionPolicy = ConfigurationReader.GetResolutionPolicy();
+
             DependencyResolver resolver = new DependencyResolver(graph);
             List<Package> order = resolver.Resolve();
 
