@@ -21,9 +21,13 @@ public class Program
             string filePath = args[0];
 
             var lines = new FileReader().ReadLines(filePath);
-            DependencyGraph graph = new GraphBuilder().BuildGraph(lines);
+            GraphBuilder builder = new GraphBuilder();
+            DependencyGraph graph = builder.BuildGraph(lines);
 
             string? resolutionPolicy = ConfigurationReader.GetResolutionPolicy();
+            IResolutionStrategy strategy = StrategyFactory.SetStrategy(resolutionPolicy);
+            Dictionary<string, Package> chosenVersions = strategy.ResolveConflicts(graph);
+            // rebuild graph here
 
             DependencyResolver resolver = new DependencyResolver(graph);
             List<Package> order = resolver.Resolve();
