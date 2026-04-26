@@ -20,7 +20,7 @@ public class StrictStrategy : IResolutionStrategy
     /// <exception cref="VersionConflictException">
     /// Thrown when multiple versions of the same package are found in the dependency graph.
     /// </exception>
-    public Dictionary<string, Package> ResolveConflicts(DependencyGraph graph)
+    public Dictionary<string, Package>? ResolveConflicts(DependencyGraph graph)
     {
         Dictionary<string, HashSet<Package>> packagesVersions = ((IResolutionStrategy)this).GetVersionsForEachPackage(graph);
 
@@ -32,6 +32,6 @@ public class StrictStrategy : IResolutionStrategy
             }
         }
 
-        return packagesVersions.ToDictionary(x => x.Key, x => x.Value.First());
+        return null;
     }
 }

@@ -76,6 +76,35 @@ public class GraphBuilder
     }
 
     /// <summary>
+    /// Creates a new dependency graph where all packages and their dependencies
+    /// are replaced with the selected versions provided in <paramref name="chosenVersions"/>.
+    /// </summary>
+    /// <param name="graph">The original dependency graph containing packages and their dependencies.</param>
+    /// <param name="chosenVersions">A dictionary mapping package names to their selected versions that should be used in the corrected graph.</param>
+    /// <returns>A new <see cref="DependencyGraph"/> where all packages and dependencies are replaced according to the provided version mapping.</returns>
+    public DependencyGraph CorrectGraph(DependencyGraph graph, Dictionary<string, Package> chosenVersions)
+    {
+        DependencyGraph correctedGraph = new DependencyGraph();
+
+        foreach (Package package in graph.GetAllPackages())
+        {
+            Package chosenPackage = chosenVersions[package.name];
+
+            correctedGraph.AddPackage(chosenPackage);
+
+            foreach (Package dep in graph.GetDependencies(package))
+            {
+                Package chosenDependency = chosenVersions[dep.name];
+
+                correctedGraph.AddPackage(chosenDependency);
+                correctedGraph.AddDependency(chosenPackage, chosenDependency);
+            }
+        }
+
+        return correctedGraph;
+    }
+
+    /// <summary>
     /// Scans the provided lines and collects all package definitions into a <see cref="HashSet{Package}"/>.
     /// </summary>
     /// <param name="lineList">A list of strings representing lines from the dependency file.</param>

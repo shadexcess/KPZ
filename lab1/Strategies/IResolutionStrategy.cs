@@ -16,7 +16,7 @@ public interface IResolutionStrategy
     /// <returns>
     /// A dictionary where the key is the package name and the value is the selected package version after conflict resolution.
     /// </returns>
-    Dictionary<string, Package> ResolveConflicts(DependencyGraph graph);
+    Dictionary<string, Package>? ResolveConflicts(DependencyGraph graph);
 
     /// <summary>
     /// Retrieves all versions of each package present in the dependency graph.

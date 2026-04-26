@@ -26,10 +26,10 @@ public class Program
 
             string? resolutionPolicy = ConfigurationReader.GetResolutionPolicy();
             IResolutionStrategy strategy = StrategyFactory.SetStrategy(resolutionPolicy);
-            Dictionary<string, Package> chosenVersions = strategy.ResolveConflicts(graph);
-            // rebuild graph here
+            Dictionary<string, Package>? chosenVersions = strategy.ResolveConflicts(graph);
+            DependencyGraph finalGraph = chosenVersions == null ? graph : builder.CorrectGraph(graph, chosenVersions);
 
-            DependencyResolver resolver = new DependencyResolver(graph);
+            DependencyResolver resolver = new DependencyResolver(finalGraph);
             List<Package> order = resolver.Resolve();
 
             Console.WriteLine("Package installation order:\n");
