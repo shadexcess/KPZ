@@ -12,19 +12,20 @@ using System.Text.Json;
 public class ConfigurationReader
 {
     /// <summary>
-    /// Reads the resolution strategy from the configuration file
+    /// Reads the resolution strategy from the configuration file.
     /// </summary>
+    /// <param name="filePath">The path to the file containing the resolution strategy.</param>
     /// <returns>
     /// A string representing the resolution strategy if found in the configuration file; otherwise, null.
     /// </returns>
-    public static string? GetResolutionPolicy()
+    public static string? GetResolutionPolicy(string filePath)
     {
-        if (!File.Exists("config.json"))
+        if (!File.Exists(filePath))
         {
             return null;
         }
 
-        string json = File.ReadAllText("config.json");
+        string json = File.ReadAllText(filePath);
         using JsonDocument document = JsonDocument.Parse(json);
 
         if (document.RootElement.TryGetProperty("resolution_policy", out JsonElement resolutionPolicy))

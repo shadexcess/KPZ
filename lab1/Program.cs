@@ -24,7 +24,7 @@ public class Program
             GraphBuilder builder = new GraphBuilder();
             DependencyGraph graph = builder.BuildGraph(lines);
 
-            string? resolutionPolicy = ConfigurationReader.GetResolutionPolicy();
+            string? resolutionPolicy = ConfigurationReader.GetResolutionPolicy("config.json");
             IResolutionStrategy strategy = StrategyFactory.SetStrategy(resolutionPolicy);
             Dictionary<string, Package>? chosenVersions = strategy.ResolveConflicts(graph);
             DependencyGraph finalGraph = chosenVersions == null ? graph : builder.CorrectGraph(graph, chosenVersions);
