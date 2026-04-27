@@ -25,16 +25,22 @@ public interface IResolutionStrategy
     /// <returns>
     /// A dictionary where the key is the package name and the value is a set of all versions of that package found in the graph.
     /// </returns>
-    public Dictionary<string, HashSet<Package>> GetVersionsForEachPackage(DependencyGraph graph)
+    public Dictionary<string, List<Package>> GetVersionsForEachPackage(DependencyGraph graph)
     {
-        var packagesVersions = new Dictionary<string, HashSet<Package>>();
+        var packagesVersions = new Dictionary<string, List<Package>>();
+        var seen = new HashSet<string>();
 
         void Add(Package p)
         {
             if (!packagesVersions.TryGetValue(p.name, out var set))
             {
-                set = new HashSet<Package>();
+                set = new List<Package>();
                 packagesVersions[p.name] = set;
+            }
+
+            if (!seen.Add(p.name + "|" + p.version))
+            {
+                return;
             }
 
             set.Add(p);

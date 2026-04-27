@@ -19,7 +19,7 @@ public class HighestVersionStrategy : IResolutionStrategy
     /// </returns>
     public Dictionary<string, Package> ResolveConflicts(DependencyGraph graph)
     {
-        Dictionary<string, HashSet<Package>> packagesVersions = ((IResolutionStrategy)this).GetVersionsForEachPackage(graph);
+        Dictionary<string, List<Package>> packagesVersions = ((IResolutionStrategy)this).GetVersionsForEachPackage(graph);
 
         var maxPackages = packagesVersions.ToDictionary(
             kvp => kvp.Key,

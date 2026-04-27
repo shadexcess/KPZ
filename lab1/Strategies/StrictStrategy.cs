@@ -22,7 +22,7 @@ public class StrictStrategy : IResolutionStrategy
     /// </exception>
     public Dictionary<string, Package>? ResolveConflicts(DependencyGraph graph)
     {
-        Dictionary<string, HashSet<Package>> packagesVersions = ((IResolutionStrategy)this).GetVersionsForEachPackage(graph);
+        Dictionary<string, List<Package>> packagesVersions = ((IResolutionStrategy)this).GetVersionsForEachPackage(graph);
 
         foreach (var kvp in packagesVersions)
         {

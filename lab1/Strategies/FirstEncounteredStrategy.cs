@@ -21,7 +21,7 @@ public class FirstEncounteredStrategy : IResolutionStrategy
     /// </returns>
     public Dictionary<string, Package> ResolveConflicts(DependencyGraph graph)
     {
-        Dictionary<string, HashSet<Package>> packagesVersions = ((IResolutionStrategy)this).GetVersionsForEachPackage(graph);
+        Dictionary<string, List<Package>> packagesVersions = ((IResolutionStrategy)this).GetVersionsForEachPackage(graph);
 
         Dictionary<string, Package> firstPackages = packagesVersions
             .ToDictionary(x => x.Key, x => x.Value.First());
