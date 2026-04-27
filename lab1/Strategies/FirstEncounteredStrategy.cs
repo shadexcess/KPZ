@@ -19,9 +19,16 @@ public class FirstEncounteredStrategy : IResolutionStrategy
     /// A dictionary where the key is the package name and the value is the first encountered version
     /// of that package in the dependency traversal order.
     /// </returns>
-    public Dictionary<string, Package> ResolveConflicts(DependencyGraph graph)
+    public Dictionary<string, Package>? ResolveConflicts(DependencyGraph graph)
     {
         Dictionary<string, List<Package>> packagesVersions = ((IResolutionStrategy)this).GetVersionsForEachPackage(graph);
+
+        bool hasConflict = packagesVersions.Any(x => x.Value.Count > 1);
+
+        if (!hasConflict)
+        {
+            return null;
+        }
 
         Dictionary<string, Package> firstPackages = packagesVersions
             .ToDictionary(x => x.Key, x => x.Value.First());

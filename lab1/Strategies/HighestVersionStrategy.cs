@@ -17,9 +17,16 @@ public class HighestVersionStrategy : IResolutionStrategy
     /// <returns>
     /// A dictionary where the key is the package name and the value is the highest available version of that package.
     /// </returns>
-    public Dictionary<string, Package> ResolveConflicts(DependencyGraph graph)
+    public Dictionary<string, Package>? ResolveConflicts(DependencyGraph graph)
     {
         Dictionary<string, List<Package>> packagesVersions = ((IResolutionStrategy)this).GetVersionsForEachPackage(graph);
+
+        bool hasConflict = packagesVersions.Any(x => x.Value.Count > 1);
+
+        if (!hasConflict)
+        {
+            return null;
+        }
 
         var maxPackages = packagesVersions.ToDictionary(
             kvp => kvp.Key,
