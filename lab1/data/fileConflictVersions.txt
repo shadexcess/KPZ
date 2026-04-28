@@ -1,0 +1,13 @@
+package: core-module, v1.0
+requires: auth, v1.0
+requires: crypto-utils, v1.0
+
+package: auth, v1.0
+requires: logger, v1.0
+
+package: crypto-utils, v1.0
+requires: logger, v2.0
+
+package: logger, v1.0
+
+package: logger, v2.0
