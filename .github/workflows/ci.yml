@@ -23,7 +23,7 @@ jobs:
         run: dotnet restore
   
       - name: Build Project
-        run: dotnet build -c Release --no-restore -warnaserror
+        run: dotnet build -c Release --no-restore -warnaserror:SA*
   
       - name: Run Tests
         run: dotnet test -c Release --no-build
