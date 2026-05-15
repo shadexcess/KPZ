@@ -1,0 +1,39 @@
+name: CD
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+  
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with: 
+          dotnet-version: 8.0.x
+  
+      - name: Restore Dependencies
+        run: dotnet restore
+  
+      - name: Build Project
+        run: dotnet build -c Release --no-restore -warnaserror:SA*
+
+      - name: Run Tests
+        run: dotnet test -c Release --no-build
+
+      - name: Publish Project
+        run: dotnet publish -c Release -o out
+
+      - name: Archive Artifact
+        run: zip -r release.zip out
+  
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release.zip
