@@ -26,7 +26,7 @@ public class GraphBuilder
 
         List<string> lineList = lines.ToList();
 
-        FindAllPackages(lineList, packagePattern, out HashSet<Package> allPackages);
+        this.FindAllPackages(lineList, packagePattern, out HashSet<Package> allPackages);
 
         int i = 0;
 

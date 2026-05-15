@@ -7,7 +7,7 @@ namespace lab1;
 using System;
 
 /// <summary>
-/// Represents an exception that is thrown when a version conflict is detected 
+/// Represents an exception that is thrown when a version conflict is detected
 /// between different versions of the same package in a dependency graph.
 /// </summary>
 public class VersionConflictException : DependencyException
