@@ -1,0 +1,11 @@
+bin/
+obj/
+out/
+
+TestResults/
+CoverageReport/
+
+.git/
+
+.vs/
+*.user
