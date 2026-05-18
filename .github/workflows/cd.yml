@@ -1,13 +1,12 @@
-name: CI
+name: CD
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    tags:
+      - 'v*.*.*'
 
 jobs:
-  build-and-test:
+  release:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,6 +23,17 @@ jobs:
   
       - name: Build Project
         run: dotnet build -c Release --no-restore -warnaserror:SA*
-  
+
       - name: Run Tests
         run: dotnet test -c Release --no-build
+
+      - name: Publish Project
+        run: dotnet publish -c Release -o out
+
+      - name: Archive Artifact
+        run: zip -r release.zip out
+  
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release.zip
