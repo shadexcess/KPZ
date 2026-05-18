@@ -42,3 +42,16 @@
 наприклад:
 
 `reportgenerator -reports:"lab1.Tests/TestResults/*/coverage.cobertura.xml" -targetdir:"lab1.Tests/CoverageReport" -reporttypes:Html`
+
+## Docker
+Щоб зібрати Docker-образ для утиліти, виконайте корені проекту:
+
+`docker build -t lab1-app .`
+
+Для запуску програми з передачею вхідного файлу використовуйте команду вигляду:
+
+`docker run --rm --volume "<шлях до локальної папки>:<шлях всередині контейнера>" lab1-app <шлях до файлу всередині контейнера>`
+
+наприклад:
+
+`docker run --rm --volume "D:\course3\SEM2\КПЗ\lab1\KPZ\lab1\data:/data" lab1-app /data/file.txt`
